@@ -19,7 +19,7 @@ var campgroundsRoutes = require('./routes/campgrounds'),
 
 //APP CONFIG -------------------------------------------------------------------
 const {MongoClient} = require('mongodb');
-const uri = "mongodb+srv://Ritwik:12346789@cluster0-7jkpa.mongodb.net/test?retryWrites=true&w=majority";
+const uri = process.env.DATABASEURL;
 async function main(){
     /**
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
