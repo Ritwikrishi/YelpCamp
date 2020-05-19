@@ -18,7 +18,33 @@ var campgroundsRoutes = require('./routes/campgrounds'),
     User              = require('./models/users');
 
 //APP CONFIG -------------------------------------------------------------------
-mongoose.connect("mongodb://localhost/yelp_camp",{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+const {MongoClient} = require('mongodb');
+const uri = "mongodb+srv://Ritwik:12346789@cluster0-7jkpa.mongodb.net/test?retryWrites=true&w=majority";
+async function main(){
+    /**
+     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+     */
+    const client = new MongoClient(uri,{ useNewUrlParser: true, useUnifiedTopology: true});
+    try {
+            // Connect to the MongoDB cluster
+            await client.connect();
+            // Make the appropriate DB calls
+            await  listDatabases(client);
+    } catch (e) {
+            console.error(e);
+    } finally {
+            await client.close();
+    }
+}
+async function listDatabases(client){
+    var databasesList = await client.db().admin().listDatabases();
+ 
+    console.log("Databases:");
+    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+}
+main().catch(console.error);
+mongoose.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
 app.use(methodOverride("_method"));
