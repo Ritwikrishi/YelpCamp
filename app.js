@@ -52,8 +52,6 @@ app.use(expressSanitizer());
 app.use(flash());
 app.set('view engine','ejs');
 
-//seed the database
-
 //Passport Config --------------------------------------------------------------
 app.use(session({
     secret: "Once again Rusty wins cutest dog!",
